@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pães e Delícias - Encomendas</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'background': '#dbcbb9',
+                        'primary': '#473a33',
+                        'primary-foreground': '#ffffff',
+                        'foreground': '#333333',
+                        'muted-foreground': '#666666',
+                        'border': '#473a33',
+                        'card': '#ffffff',
+                        'ring': '#473a33',
+                        // Cores de status para as etapas
+                        'active': '#473a33',
+                        'completed': '#10b981', // Verde
+                        'default': '#9ca3af', // Cinza
+                    },
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        serif: ['Libre Baskerville', 'serif'], 
+                    },
+                },
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <div class="min-h-screen bg-background">
+        
+        <div class="relative h-[400px] w-full overflow-hidden">
+            <div class="absolute inset-0 bg-cover bg-center" 
+                 style="background-image: url('https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/Gemini_Generated_Image_s3fdbxs3fdbxs3fd.png');"> 
+                <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60"></div>
+            </div>
+            <div class="absolute inset-0 flex flex-col items-center justify-end text-white p-8"> 
+                <h1 class="text-5xl font-serif mb-4">Pães e Delícias</h1>
+                <p class="text-2xl text-center max-w-2xl">Encomendas personalizadas de panificação e confeitaria. Faça seu pedido com praticidade e receba na loja ou em casa.</p>
+            </div>
+        </div>
+
+        <div class="mx-auto max-w-7xl px-6 py-8">
+            <div id="step-indicators" class="flex items-center justify-between space-x-2 sm:space-x-4">
+                </div>
+        </div>
+        
+        <div class="mx-auto max-w-7xl px-6 py-4">
+            <div class="grid gap-8 lg:grid-cols-[1fr_380px]">
+
+                <div>
+                    
+                    <div id="step-1" class="step-content">
+                        <h2 class="font-serif text-3xl font-bold text-foreground">Faça Sua Encomenda</h2>
+                        <p class="mt-2 text-muted-foreground">Selecione os produtos desejados e a quantidade.</p>
+
+                        <div id="products-list" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+                            </div>
+                    </div>
+
+                    <div id="step-2" class="step-content hidden">
+                        <h2 class="font-serif text-3xl font-bold text-foreground">Suas Informações</h2>
+                        <p class="mt-2 text-muted-foreground">Preencha seus dados de contato e escolha o método de pedido.</p>
+
+                        <div class="mt-8 space-y-4 rounded-xl border bg-card border-border p-6 shadow-lg">
+                            <label class="block">
+                                <span class="text-foreground font-semibold">Nome Completo *</span>
+                                <input type="text" id="input-name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 h-10 px-3" required>
+                            </label>
+                            <label class="block">
+                                <span class="text-foreground font-semibold">Telefone</span>
+                                <input type="tel" id="input-phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 h-10 px-3">
+                            </label>
+                            <label class="block">
+                                <span class="text-foreground font-semibold">E-mail</span>
+                                <input type="email" id="input-email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 h-10 px-3">
+                            </label>
+                            <label class="block">
+                                <span class="text-foreground font-semibold">Endereço</span>
+                                <input type="text" id="input-address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 h-10 px-3">
+                            </label>
+                            <label class="block">
+                                <span class="text-foreground font-semibold">Método de Pedido *</span>
+                                <div class="mt-2 space-y-2">
+                                    <div class="flex items-center">
+                                        <input type="radio" id="method-pickup" name="order-method" value="Retirar na Loja" class="h-4 w-4 text-primary border-gray-300 focus:ring-primary" checked>
+                                        <label for="method-pickup" class="ml-2 text-foreground">Retirar na Loja (Pães e Delícias)</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" id="method-delivery" name="order-method" value="Entrega em Domicílio" class="h-4 w-4 text-primary border-gray-300 focus:ring-primary">
+                                        <label for="method-delivery" class="ml-2 text-foreground">Entrega em Domicílio</label>
+                                    </div>
+                                </div>
+                            </label>
+                            
+                            <button onclick="navigateSteps(2, 'next')" class="w-full mt-6 bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+                                Continuar para Revisão
+                            </button>
+                            <button onclick="navigateSteps(2, 'prev')" class="w-full mt-2 bg-gray-200 text-foreground py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors">
+                                &lt; Voltar ao Cardápio
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="step-3" class="step-content hidden">
+                        <h2 class="font-serif text-3xl font-bold text-foreground">Revise Seu Pedido</h2>
+                        <p class="mt-2 text-muted-foreground">Verifique se todos os itens e informações estão corretos.</p>
+                        
+                        <div class="mt-8 space-y-6">
+                            <div class="rounded-xl border bg-card border-border p-6 shadow-lg">
+                                <h3 class="text-xl font-semibold mb-4">Itens do Pedido</h3>
+                                <div id="review-items-summary" class="space-y-4">
+                                    </div>
+                            </div>
+
+                            <div class="rounded-xl border bg-card border-border p-6 shadow-lg">
+                                <h3 class="text-xl font-semibold mb-4">Informações de Contato e Pedido</h3>
+                                <p id="review-info" class="text-foreground space-y-2">
+                                    </p>
+                            </div>
+                        </div>
+
+                        <button onclick="navigateSteps(3, 'next')" class="w-full mt-6 bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+                            Ir para Pagamento
+                        </button>
+                        <button onclick="navigateSteps(3, 'prev')" class="w-full mt-2 bg-gray-200 text-foreground py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors">
+                            &lt; Voltar às Informações
+                        </button>
+                    </div>
+
+                    <div id="step-4" class="step-content hidden">
+                        <h2 class="font-serif text-3xl font-bold text-foreground">Pagamento</h2>
+                        <p class="mt-2 text-muted-foreground">Selecione o método de pagamento para finalizar o pedido.</p>
+                        
+                        <div class="mt-8 rounded-xl border bg-card border-border p-6 shadow-lg">
+                            <h3 class="text-2xl font-semibold mb-4">Total: <span id="payment-total" class="font-bold text-primary ml-2">R$ 0.00</span></h3>
+                            
+                            <label class="block mt-4">
+                                <span class="text-foreground font-semibold">Forma de Pagamento</span>
+                                <div class="mt-2 space-y-2">
+                                    <div class="flex items-center">
+                                        <input type="radio" id="pay-money" name="payment-method" value="Dinheiro" class="h-4 w-4 text-primary border-gray-300 focus:ring-primary" checked>
+                                        <label for="pay-money" class="ml-2 text-foreground">Dinheiro (Pagar na Retirada/Entrega)</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" id="pay-card" name="payment-method" value="Cartão de Crédito/Débito" class="h-4 w-4 text-primary border-gray-300 focus:ring-primary">
+                                        <label for="pay-card" class="ml-2 text-foreground">Cartão de Crédito/Débito</label>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <div id="card-fields" class="mt-4 hidden space-y-4 border-t pt-4">
+                                <label class="block">
+                                    <span class="text-foreground font-semibold">Número do Cartão</span>
+                                    <input type="text" placeholder="1234 5678 9012 3456" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 h-10 px-3">
+                                </label>
+                                <p class="text-sm text-muted-foreground">Modo demonstração: Digite qualquer 16 dígitos.</p>
+                            </div>
+
+                            <button onclick="navigateSteps(4, 'next')" class="w-full mt-6 bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+                                Finalizar Pagamento
+                            </button>
+                            <button onclick="navigateSteps(4, 'prev')" class="w-full mt-2 bg-gray-200 text-foreground py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors">
+                                &lt; Voltar à Revisão
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="step-5" class="step-content hidden text-center">
+                        <div class="rounded-xl border bg-card border-border p-10 shadow-lg">
+                            <svg class="mx-auto h-16 w-16 text-completed" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <h2 class="font-serif text-3xl font-bold text-foreground mt-4">Obrigado pelo Seu Pedido!</h2>
+                            <p class="mt-2 text-muted-foreground">Seu pedido foi realizado com sucesso. Número do Pedido: <strong class="text-primary">ORD-SHOGKV</strong></p>
+                            
+                            <div class="mt-6 border-t pt-4">
+                                <h3 class="text-xl font-semibold mb-2">Detalhes da Retirada</h3>
+                                <p id="confirmation-details" class="text-foreground">
+                                    </p>
+                            </div>
+
+                            <button onclick="location.reload()" class="w-full mt-8 bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors">
+                                Fazer Outro Pedido
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="lg:sticky lg:top-6 lg:h-fit">
+                    <div id="cart-summary" class="rounded-xl border bg-card border-border text-foreground shadow-lg p-6">
+                        <h3 class="text-2xl font-semibold leading-none tracking-tight flex items-center gap-2 mb-4">
+                            🛒 Seu Carrinho
+                        </h3>
+                        <div id="cart-items" class="space-y-4">
+                            <p class="text-sm text-muted-foreground" id="empty-cart-text">Seu carrinho está vazio</p>
+                        </div>
+                        <div id="cart-totals" class="pt-4 mt-4 border-t border-border">
+                            <div class="flex justify-between font-bold text-lg">
+                                <span>Total:</span>
+                                <span id="cart-total">R$ 0.00</span>
+                            </div>
+                            <button id="next-step-button" onclick="navigateSteps(1, 'next')" class="w-full mt-4 bg-primary text-primary-foreground py-2 rounded-lg font-semibold hover:bg-primary/90 transition-colors" disabled>
+                                Finalizar Pedido
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Definição dos Dados (Produtos)
+        const products = [
+            { id: 1, name: "Pão Artesanal", price: 6.99, desc: "Pão tradicional de fermentação natural", img:"https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/download%20(4).jpeg" },
+            { id: 2, name: "Croissant de Manteiga", price: 4.99, desc: "Folhados e amanteigados, assados frescos", img: "https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/pngtree-fresh-bakery-croissant-png-image_10277018__1_-removebg-preview.png" },
+            { id: 3, name: "Rolinho de Canela", price: 6.49, desc: "Quentinhos com cobertura de cream cheese", img: "https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/download%20(3).jpeg" },
+            { id: 4, name: "Cookie de Chocolate", price: 3.99, desc: "Cookies clássicos com gotas de chocolate belga", img: "https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/download%20(5).jpeg" },
+            { id: 5, name: "Muffin de Blueberry", price: 4.49, desc: "Muffins macios recheados com blueberries frescos", img: "https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/download%20(6).jpeg" },
+            { id: 6, name: "Pão de Queijo", price: 1.50, desc: "Pão de queijo mineiro tradicional, quentinho e crocante por fora", img: "https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/download%20(7).jpeg" },
+            { id: 7, name: "Pão de Sal", price: 0.75, desc: "Pão francês tradicional, crocante e fresquinho", img:"https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/download%20(8).jpeg" },
+            { id: 8, name: "Baguete Francesa", price: 4.49, desc: "Baguete francesa autêntica com crosta crocante", img: "https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/download%20(9).jpeg" },
+            { id: 9, name: "Tortelete de Frutas", price: 8.49, desc: "Torta artesanal recheada com frutas frescas da estação", img: "https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/download%20(10).jpeg" },
+            { id: 10, name: "Suco de Laranja 1L", price: 14.99, desc: "Naturalmente doce, espremido na hora, fresco e gelado", img: "https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/download%20(11).jpeg" },
+            { id: 11, name: "Café Expresso", price: 1.99, desc: "Extraído sob medida para um sabor encorpado, e aroma intenso", img: "https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/download%20(12).jpeg" },
+            { id: 12, name: "Chocolate Quente", price: 2.99, desc: "Cremoso, denso e feito com chocolate de verdade.", img: "https://uploads.onecompiler.io/42cq8q6wy/443vua8yd/download__13_-removebg-preview.png" },
+        ];
+
+        // 2. Estado do Carrinho e Etapa (Global)
+        let cart = {}; // { id: quantity }
+        let currentStep = 1; // 1: Selecionar Itens, 2: Suas Informações, etc.
+
+        // 3. Funções de Formatação
+        const formatCurrency = (amount) => `R$ ${amount.toFixed(2).replace('.', ',')}`;
+
+        // 4. Funções do Carrinho
+        const updateCart = (productId, change) => {
+            const id = productId;
+            const currentQuantity = cart[id] || 0;
+            const newQuantity = Math.max(0, currentQuantity + change);
+            
+            cart[id] = newQuantity;
+            
+            // Atualiza a interface
+            renderProductCard(id); 
+            renderCartSummary();
+            updateNextStepButton();
+        };
+
+        const calculateTotal = () => {
+            let total = 0;
+            for (const id in cart) {
+                const product = products.find(p => p.id == id);
+                if (product) {
+                    total += product.price * cart[id];
+                }
+            }
+            return total;
+        };
+
+        const getTotalItems = () => {
+            let totalItems = 0;
+            for (const id in cart) {
+                totalItems += cart[id];
+            }
+            return totalItems;
+        }
+
+        const updateNextStepButton = () => {
+            const totalItems = getTotalItems();
+            const button = document.getElementById('next-step-button');
+            if (button) {
+                button.disabled = totalItems === 0;
+                button.textContent = totalItems === 0 ? 'Adicione itens ao carrinho' : 'Finalizar Pedido';
+            }
+        };
+
+
+        // 5. Funções de Renderização (Produtos e Carrinho)
+        const createProductCardHTML = (product) => {
+            const quantity = cart[product.id] || 0;
+            const isButtonDisabled = quantity === 0;
+
+            return `
+                <div id="card-product-${product.id}" class="rounded-xl border bg-card border-border text-foreground shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="aspect-square overflow-hidden">
+                        <img src="${product.img}" alt="${product.name}" class="h-full w-full object-cover">
+                    </div>
+                    <div class="p-4 sm:p-6">
+                        <h3 class="font-serif text-xl font-semibold text-foreground">${product.name}</h3>
+                        <p class="mt-2 text-sm text-muted-foreground">${product.desc}</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-2xl font-bold text-primary">${formatCurrency(product.price)}</span>
+                            <div class="flex items-center gap-2">
+                                <button onclick="updateCart(${product.id}, -1)" class="inline-flex items-center justify-center rounded-md border shadow-sm h-8 w-8 text-lg ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}" ${isButtonDisabled ? 'disabled' : ''}>
+                                    -
+                                </button>
+                                <span class="min-w-8 text-center font-semibold text-base" data-quantity-id="${product.id}">${quantity}</span>
+                                <button onclick="updateCart(${product.id}, 1)" class="inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground shadow-sm h-8 w-8 text-lg hover:bg-primary/90">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
+
+        const renderProductCard = (productId) => {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            // 1. Atualiza a quantidade no span do card
+            const quantitySpan = document.querySelector(`span[data-quantity-id="${productId}"]`);
+            if (quantitySpan) {
+                const newQuantity = cart[productId] || 0;
+                quantitySpan.textContent = newQuantity;
+                
+                // 2. Atualiza o estado do botão de remover
+                const removeButton = quantitySpan.previousElementSibling;
+                if (removeButton) {
+                    removeButton.disabled = newQuantity === 0;
+                    removeButton.classList.toggle('opacity-50', newQuantity === 0);
+                    removeButton.classList.toggle('cursor-not-allowed', newQuantity === 0);
+                    removeButton.classList.toggle('hover:bg-gray-100', newQuantity > 0);
+                }
+            }
+        };
+
+        const renderCartSummary = () => {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotalSpan = document.getElementById('cart-total');
+            const emptyCartText = document.getElementById('empty-cart-text');
+            
+            let itemsHTML = '';
+            let totalItems = 0;
+
+            for (const id in cart) {
+                const quantity = cart[id];
+                if (quantity > 0) {
+                    const product = products.find(p => p.id == id);
+                    if (product) {
+                        totalItems += quantity;
+                        const itemTotal = product.price * quantity;
+                        itemsHTML += `
+                            <div class="flex justify-between items-center text-sm border-b pb-2">
+                                <span class="text-foreground">${quantity} x ${product.name}</span>
+                                <span class="font-medium">${formatCurrency(itemTotal)}</span>
+                            </div>
+                        `;
+                    }
+                }
+            }
+            
+            // Atualiza os elementos da interface
+            cartItemsContainer.innerHTML = itemsHTML;
+            if (emptyCartText) {
+                emptyCartText.style.display = totalItems === 0 ? 'block' : 'none';
+            }
+            cartTotalSpan.textContent = formatCurrency(calculateTotal());
+        };
+
+        // 6. Funções de Renderização (Progresso)
+        const renderStepIndicators = () => {
+            const steps = [
+                { id: 1, name: "Selecionar Itens" },
+                { id: 2, name: "Suas Informações" },
+                { id: 3, name: "Revisar" },
+                { id: 4, name: "Pagamento" },
+                { id: 5, name: "Confirmado" }
+            ];
+            const container = document.getElementById('step-indicators');
+            if (!container) return;
+
+            let html = '';
+            steps.forEach((step, index) => {
+                const isActive = step.id === currentStep;
+                const isCompleted = step.id < currentStep;
+
+                let circleClass = 'border-border bg-background text-muted-foreground';
+                let textClass = 'text-muted-foreground';
+
+                if (isCompleted) {
+                    circleClass = 'border-completed bg-completed text-primary-foreground';
+                    textClass = 'text-completed';
+                } else if (isActive) {
+                    circleClass = 'border-ring bg-background text-primary';
+                    textClass = 'text-primary';
+                }
+
+                html += `
+                    <div class="flex flex-col items-center flex-1 min-w-0">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-full border-2 font-semibold transition-colors ${circleClass}">
+                            <span>${step.id}</span>
+                        </div>
+                        <span class="mt-2 text-center text-sm font-medium ${textClass}">${step.name}</span>
+                    </div>
+                `;
+
+                if (index < steps.length - 1) {
+                    const lineClass = isCompleted ? 'bg-completed' : 'bg-border';
+                    html += `<div class="h-0.5 flex-1 ${lineClass} transition-colors"></div>`;
+                }
+            });
+
+            container.innerHTML = html;
+        };
+
+        // 7. Funções de Navegação de Etapas (A CHAVE DO MÉTODO B)
+        const updateContentForStep = (newStep) => {
+            // Esconde todas as etapas
+            document.querySelectorAll('.step-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+
+            // Mostra a nova etapa
+            const newStepElement = document.getElementById(`step-${newStep}`);
+            if (newStepElement) {
+                newStepElement.classList.remove('hidden');
+                
+                // Rola para o topo da página para melhor UX
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Atualiza o total do carrinho na Etapa 4 (Pagamento)
+                if (newStep === 4) {
+                    document.getElementById('payment-total').textContent = formatCurrency(calculateTotal());
+                }
+
+                // Prepara a tela de Revisão (Etapa 3)
+                if (newStep === 3) {
+                    renderReviewStep();
+                }
+
+                // Prepara a tela de Confirmação (Etapa 5)
+                if (newStep === 5) {
+                    renderConfirmationStep();
+                }
+            }
+        };
+
+        const renderReviewStep = () => {
+            // 1. Copia o conteúdo do carrinho para a seção de itens da revisão
+            const cartItemsHTML = document.getElementById('cart-items').innerHTML;
+            const reviewItemsContainer = document.getElementById('review-items-summary');
+            reviewItemsContainer.innerHTML = cartItemsHTML;
+
+            // 2. Coleta e exibe as informações preenchidas
+            const name = document.getElementById('input-name').value || 'Não preenchido';
+            const phone = document.getElementById('input-phone').value || 'Não preenchido';
+            const email = document.getElementById('input-email').value || 'Não preenchido';
+            const method = document.querySelector('input[name="order-method"]:checked')?.value || 'Não selecionado';
+
+            const reviewInfoHTML = `
+                <p><strong>Nome:</strong> ${name}</p>
+                <p><strong>Telefone:</strong> ${phone}</p>
+                <p><strong>E-mail:</strong>${email}</p>
+                <p><strong>Método:</strong> ${method}</p>
+                `;
+            document.getElementById('review-info').innerHTML = reviewInfoHTML;
+        };
+
+        const renderConfirmationStep = () => {
+            const name = document.getElementById('input-name').value || 'Nome Cliente';
+            const method = document.querySelector('input[name="order-method"]:checked')?.value || 'Retirada na Loja';
+            const payment = document.querySelector('input[name="payment-method"]:checked')?.value || 'Dinheiro';
+
+            const confirmationHTML = `
+                <p><strong>Cliente:</strong> ${name}</p>
+                <p><strong>Método de Pedido:</strong> ${method}</p>
+                <p><strong>Forma de Pagamento:</strong> ${payment}</p>
+                <p><strong>Total:</strong> ${formatCurrency(calculateTotal())}</p>
+            `;
+            document.getElementById('confirmation-details').innerHTML = confirmationHTML;
+        };
+
+        const validateStep = (step) => {
+            if (step === 1 && getTotalItems() === 0) {
+                alert("Selecione pelo menos um item para continuar.");
+                return false;
+            }
+            if (step === 2) {
+                const nameInput = document.getElementById('input-name');
+                if (!nameInput.value.trim()) {
+                    alert("Por favor, preencha seu Nome Completo para continuar.");
+                    nameInput.focus();
+                    return false;
+                }
+            }
+            // Adicione outras validações (ex: pagamento, campos obrigatórios, etc.)
+            return true;
+        };
+
+        const navigateSteps = (fromStep, direction) => {
+            let nextStep = currentStep;
+            
+            if (direction === 'next') {
+                if (!validateStep(fromStep)) {
+                    return; // Impede a navegação se a validação falhar
+                }
+                nextStep = Math.min(5, currentStep + 1);
+            } else if (direction === 'prev') {
+                nextStep = Math.max(1, currentStep - 1);
+            }
+
+            if (nextStep !== currentStep) {
+                currentStep = nextStep;
+                renderStepIndicators();
+                updateContentForStep(currentStep);
+            }
+        };
+
+        // 8. Inicialização (Ao carregar a página)
+        const init = () => {
+            const productsList = document.getElementById('products-list');
+            if (productsList) {
+                productsList.innerHTML = products.map(createProductCardHTML).join('');
+            }
+            
+            // Inicializa o carrinho e o estado do botão
+            products.forEach(p => cart[p.id] = 0);
+            
+            renderCartSummary();
+            updateNextStepButton();
+            renderStepIndicators(); // Desenha a barra de progresso inicial
+        };
+
+        // Event listener para o campo de pagamento para mostrar/esconder campos do cartão
+        document.addEventListener('change', (e) => {
+            if (e.target.name === 'payment-method') {
+                const cardFields = document.getElementById('card-fields');
+                if (e.target.value === 'Cartão de Crédito/Débito') {
+                    cardFields.classList.remove('hidden');
+                } else {
+                    cardFields.classList.add('hidden');
+                }
+            }
+        });
+
+        // Executa a inicialização quando o DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
